@@ -1,0 +1,92 @@
+<!-- 
+  FILE BARU
+  Tujuan: Menyediakan antarmuka (UI) untuk Admin Platform dalam mengelola
+  semua permintaan penarikan dana dari klien (pesantren, toko, dll).
+-->
+<div class="space-y-6">
+    <!-- Header Halaman & Statistik Utama -->
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800">Manajemen Penarikan Dana</h2>
+        <p class="text-slate-500 mt-1">Proses dan pantau semua permintaan penarikan dana dari klien.</p>
+    </div>
+
+    <!-- Kartu Statistik (KPI) -->
+    <div id="withdrawal-stats-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Skeleton Loader untuk Kartu Statistik -->
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+    </div>
+
+    <!-- Kontainer Utama dengan Tab dan Filter -->
+    <div class="card">
+        <!-- Navigasi Tab -->
+        <div class="border-b border-slate-200">
+            <nav id="withdrawal-tabs" class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button data-status="pending" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm border-indigo-600 text-indigo-600">
+                    Menunggu Persetujuan
+                </button>
+                <button data-status="completed" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm border-transparent text-slate-500">
+                    Selesai
+                </button>
+                <button data-status="rejected" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm border-transparent text-slate-500">
+                    Ditolak
+                </button>
+            </nav>
+        </div>
+
+        <!-- Filter & Pencarian -->
+        <div class="flex flex-col md:flex-row items-center justify-end gap-4 mt-5">
+            <input type="date" id="filter-tanggal" class="input-field w-full md:w-auto">
+            <div class="w-full md:w-1/3 relative">
+                <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="search-input" class="input-field pl-10" placeholder="Cari nama klien...">
+            </div>
+        </div>
+
+        <!-- Tabel Daftar Permintaan -->
+        <div class="overflow-x-auto mt-4">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Nama Klien</th>
+                        <th scope="col" class="px-6 py-3">Tanggal Permintaan</th>
+                        <th scope="col" class="px-6 py-3">Jumlah</th>
+                        <th scope="col" class="px-6 py-3">Rekening Tujuan</th>
+                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="withdrawal-table-body">
+                    <!-- Skeleton Loader atau Data akan dirender di sini -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Paginasi -->
+        <div id="pagination-container" class="hidden">
+            <p class="pagination-info"></p>
+            <div class="pagination-controls"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal untuk Proses Permintaan Penarikan Dana -->
+<div id="withdrawal-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-lg animate-fadeIn max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6 flex-shrink-0">
+            <h3 class="text-xl font-bold text-slate-800">Proses Permintaan Penarikan</h3>
+            <button id="close-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        
+        <div id="modal-content-container" class="space-y-4 overflow-y-auto flex-1 pr-2">
+            <!-- Konten detail akan diisi oleh JavaScript -->
+            <div class="h-64 skeleton w-full"></div>
+        </div>
+
+        <div id="modal-action-container" class="pt-4 flex justify-end space-x-3 border-t mt-4 flex-shrink-0">
+            <!-- Tombol aksi akan diisi oleh JavaScript -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<!-- 
+    PERUBAHAN KUNCI:
+    1.  Menambahkan header halaman yang konsisten.
+    2.  Mengimplementasikan container paginasi di bawah tabel riwayat transaksi.
+    3.  Menambahkan area filter (meskipun belum difungsikan) sebagai persiapan pengembangan selanjutnya.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman -->
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800">Keuangan Platform</h2>
+        <p class="text-slate-500 mt-1">Laporan keuangan agregat dan monetisasi dari seluruh ekosistem.</p>
+    </div>
+
+    <!-- Grid Kartu Statistik Finansial -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="financial-stats-container">
+        <!-- Skeleton Loader -->
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+    </div>
+
+    <!-- Tabel Riwayat Transaksi Terbaru -->
+    <div class="card">
+        <h3 class="text-lg font-bold text-slate-800 mb-4">Riwayat Transaksi Terbaru (Global)</h3>
+        
+        <!-- Area Filter (Placeholder) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 pb-4 border-b border-slate-200">
+             <input type="date" id="filter-tanggal-mulai" class="input-field" placeholder="Tanggal Mulai">
+             <input type="date" id="filter-tanggal-akhir" class="input-field" placeholder="Tanggal Akhir">
+             <select id="filter-tipe" class="input-field">
+                 <option value="">Semua Tipe</option>
+                 <option value="topup">Top Up</option>
+                 <option value="koperasi">Koperasi</option>
+                 <option value="tagihan">Tagihan</option>
+             </select>
+             <button id="filter-btn" class="btn btn-secondary">Terapkan Filter</button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Pesantren</th>
+                        <th scope="col" class="px-6 py-3">Tipe</th>
+                        <th scope="col" class="px-6 py-3">Jumlah</th>
+                        <th scope="col" class="px-6 py-3">Tanggal</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transaksi-table-body">
+                    <!-- Skeleton Loader -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Container Paginasi -->
+        <div id="pagination-container" class="hidden">
+             <p class="pagination-info"></p>
+             <div class="pagination-controls space-x-2"></div>
+        </div>
+    </div>
+</div>

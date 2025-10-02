@@ -1,0 +1,25 @@
+<!-- 
+    PERUBAHAN KUNCI:
+    1.  Menggunakan komponen stat-card baru yang konsisten dengan Beranda Pesantren.
+    2.  Mengimplementasikan skeleton loader untuk setiap kartu.
+    3.  Menambahkan ikon yang relevan dan meningkatkan hierarki visual teks di dalam kartu.
+    4.  Memperbaiki ID elemen agar konsisten dengan file JavaScript-nya.
+-->
+<div class="space-y-6">
+    <!-- Grid Kartu Statistik -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="stats-container">
+        <!-- Skeleton Loader -->
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+    </div>
+
+    <!-- Placeholder untuk chart -->
+    <div class="card h-80 flex items-center justify-center">
+        <div class="text-center">
+            <i data-lucide="bar-chart-3" class="w-12 h-12 text-slate-300 mx-auto"></i>
+            <p class="text-slate-400 mt-2">Area untuk Grafik Pertumbuhan akan ditampilkan di sini.</p>
+        </div>
+    </div>
+</div>

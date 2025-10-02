@@ -1,0 +1,71 @@
+<!-- 
+  FILE BARU
+  Tujuan: Halaman ini menyediakan dashboard untuk menganalisis performa
+  konten secara agregat di seluruh platform.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman & Filter -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-800">Analitik Konten</h2>
+            <p class="text-slate-500 mt-1">Pantau performa dan keterlibatan pengguna terhadap konten.</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <label for="filter-periode" class="text-sm font-medium text-slate-700">Periode:</label>
+            <select id="filter-periode" class="input-field">
+                <option value="7days">7 Hari Terakhir</option>
+                <option value="30days">30 Hari Terakhir</option>
+                <option value="alltime">Semua Waktu</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Grid Kartu Statistik (KPI) -->
+    <div id="analitik-stats-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Skeleton Loader -->
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+    </div>
+
+    <!-- Grid untuk Grafik/Chart -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <!-- Grafik Kategori Terpopuler -->
+        <div class="lg:col-span-2 card">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">Kategori Terpopuler</h3>
+            <div class="h-80 flex items-center justify-center">
+                <canvas id="kategori-chart"></canvas>
+            </div>
+        </div>
+        <!-- Grafik Konten Paling Banyak Dilihat -->
+        <div class="lg:col-span-3 card">
+             <h3 class="text-lg font-bold text-slate-800 mb-4">Tren Keterlibatan (Views)</h3>
+            <div class="h-80 flex items-center justify-center">
+                <canvas id="engagement-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabel Konten Teratas & Kontributor Terbaik -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">Konten Performa Terbaik</h3>
+            <div id="top-content-list" class="space-y-3">
+                <!-- Skeleton Loader -->
+                <div class="h-12 w-full skeleton rounded-lg"></div>
+                <div class="h-12 w-full skeleton rounded-lg"></div>
+                <div class="h-12 w-full skeleton rounded-lg"></div>
+            </div>
+        </div>
+        <div class="card">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">Kontributor Paling Aktif</h3>
+            <div id="top-contributors-list" class="space-y-3">
+                 <!-- Skeleton Loader -->
+                <div class="h-12 w-full skeleton rounded-lg"></div>
+                <div class="h-12 w-full skeleton rounded-lg"></div>
+                <div class="h-12 w-full skeleton rounded-lg"></div>
+            </div>
+        </div>
+    </div>
+</div>
