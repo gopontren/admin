@@ -1,0 +1,50 @@
+<!-- 
+  FILE BARU
+  Tujuan: Halaman ini akan menampilkan detail keuangan dan transaksi dari satu unit usaha koperasi yang dipilih.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman -->
+    <div class="flex items-center space-x-3">
+        <a href="#pesantren/koperasi" class="btn btn-secondary p-2 h-10 w-10">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </a>
+        <div>
+            <h2 id="koperasi-name" class="text-2xl font-bold text-slate-800">Memuat Laporan...</h2>
+            <p class="text-slate-500 mt-1">Detail laporan untuk unit usaha yang dipilih.</p>
+        </div>
+    </div>
+
+    <!-- Kartu Statistik Laporan -->
+    <div id="laporan-stats-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Skeleton Loader untuk Kartu Statistik -->
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+    </div>
+
+    <!-- Tabel Riwayat Transaksi -->
+    <div class="card">
+        <h3 class="text-lg font-bold text-slate-800 mb-4">Riwayat Transaksi Terakhir</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">ID Transaksi</th>
+                        <th scope="col" class="px-6 py-3">Tanggal</th>
+                        <th scope="col" class="px-6 py-3">Total</th>
+                        <th scope="col" class="px-6 py-3">Metode Bayar</th>
+                    </tr>
+                </thead>
+                <tbody id="transaksi-table-body">
+                    <!-- Skeleton Loader akan ditampilkan oleh JS saat loading -->
+                </tbody>
+            </table>
+        </div>
+        <!-- Container Paginasi -->
+        <div id="pagination-container" class="hidden">
+             <p class="pagination-info"></p>
+             <div class="pagination-controls space-x-2"></div>
+        </div>
+    </div>
+</div>

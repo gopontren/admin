@@ -1,0 +1,125 @@
+<!-- 
+  PERUBAHAN KUNCI:
+  1. Layout diubah menjadi 4 kolom untuk menambahkan "Grup Pilihan Tugas".
+  2. Menambahkan ikon info dengan tooltip penjelasan di kolom baru.
+  3. Menambahkan modal baru yang terpisah (`grup-pilihan-modal`) dengan antarmuka 
+     untuk mengelola nama grup dan daftar pilihan secara dinamis.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman -->
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800">Data Master Akademik</h2>
+        <p class="text-slate-500 mt-1">Kelola data dasar untuk keperluan penjadwalan dan tugas-tugas akademik.</p>
+    </div>
+
+    <!-- Grid untuk Master Data -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Kolom Mata Pelajaran -->
+        <div class="card">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-slate-800">Mata Pelajaran</h3>
+                <button data-type="mapel" class="btn btn-secondary btn-sm btn-add-master">
+                    <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Tambah
+                </button>
+            </div>
+            <div id="mapel-list" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+
+        <!-- Kolom Kelas -->
+        <div class="card">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-slate-800">Kelas</h3>
+                <button data-type="kelas" class="btn btn-secondary btn-sm btn-add-master">
+                    <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Tambah
+                </button>
+            </div>
+            <div id="kelas-list" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+
+        <!-- Kolom Ruangan -->
+        <div class="card">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-slate-800">Ruangan/Lokasi</h3>
+                <button data-type="ruangan" class="btn btn-secondary btn-sm btn-add-master">
+                    <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Tambah
+                </button>
+            </div>
+            <div id="ruangan-list" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+
+        <!-- [BARU] Kolom Grup Pilihan Tugas -->
+        <div class="card">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <h3 class="text-lg font-bold text-slate-800">Grup Pilihan Tugas</h3>
+                    <div class="info-tooltip-container">
+                        <i data-lucide="info" class="w-4 h-4 text-slate-400 cursor-help"></i>
+                        <div class="info-tooltip">
+                            <b class="block mb-1">Apa ini?</b>
+                            Grup Pilihan adalah koleksi opsi siap pakai untuk tugas ustadz. Contoh: Buat grup 'Waktu Sholat' berisi 'Subuh', 'Dzuhur', dll. agar bisa dipilih saat membuat tugas absensi.
+                        </div>
+                    </div>
+                </div>
+                <button data-type="grupPilihan" class="btn btn-secondary btn-sm btn-add-master">
+                    <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Tambah
+                </button>
+            </div>
+            <div id="grupPilihan-list" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Universal untuk Data Master Sederhana (Mapel, Kelas, Ruangan) -->
+<div id="master-data-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-md animate-fadeIn">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6">
+            <h3 id="modal-title" class="text-xl font-bold text-slate-800">Tambah Data</h3>
+            <button id="close-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form id="master-data-form" class="space-y-4">
+            <input type="hidden" id="item-id"><input type="hidden" id="item-type">
+            <div>
+                <label for="item-name" id="item-name-label" class="block text-sm font-medium text-slate-700 mb-1">Nama</label>
+                <input type="text" id="item-name" class="input-field" required>
+            </div>
+            <div class="pt-4 flex justify-end space-x-3">
+                <button type="button" id="cancel-btn" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]"><span class="btn-text">Simpan</span><div class="spinner"></div></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- [BARU] Modal Khusus untuk Grup Pilihan -->
+<div id="grup-pilihan-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-lg animate-fadeIn flex flex-col max-h-[90vh]">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6 flex-shrink-0">
+            <h3 id="grup-pilihan-modal-title" class="text-xl font-bold text-slate-800">Buat Grup Pilihan Baru</h3>
+            <button id="grup-pilihan-close-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form id="grup-pilihan-form" class="flex flex-col flex-1 overflow-hidden">
+            <div class="space-y-4 flex-1 overflow-y-auto pr-2">
+                <input type="hidden" id="grup-pilihan-id">
+                <div>
+                    <label for="grup-pilihan-name" class="block text-sm font-medium text-slate-700 mb-1">Nama Grup</label>
+                    <input type="text" id="grup-pilihan-name" class="input-field" placeholder="Contoh: Waktu Sholat" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Opsi Pilihan</label>
+                    <div id="grup-pilihan-options-container" class="space-y-2">
+                        <!-- Opsi dinamis akan ditambahkan di sini oleh JS -->
+                    </div>
+                    <button type="button" id="add-option-btn" class="btn btn-secondary btn-sm mt-3">
+                        <i data-lucide="plus" class="w-4 h-4 mr-2"></i>Tambah Pilihan
+                    </button>
+                </div>
+            </div>
+            <div class="pt-4 flex justify-end space-x-3 border-t mt-4 flex-shrink-0">
+                <button type="button" id="grup-pilihan-cancel-btn" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]"><span class="btn-text">Simpan Grup</span><div class="spinner"></div></button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+<!-- 
+    PERUBAHAN KUNCI:
+    1.  Layout dirombak total mengikuti template standar manajemen.
+    2.  Tabel data disempurnakan dengan progress bar untuk status pembayaran.
+    3.  Modal diperbarui dengan validasi dan fungsionalitas untuk mode 'edit'.
+    4.  Menambahkan modal baru untuk menampilkan detail status pembayaran per santri.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman & Aksi -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-800">Manajemen Tagihan</h2>
+            <p class="text-slate-500 mt-1">Buat, kelola, dan pantau status pembayaran tagihan pesantren.</p>
+        </div>
+        <button id="tambah-tagihan-btn" class="btn btn-primary w-full md:w-auto">
+            <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
+            <span>Buat Tagihan Baru</span>
+        </button>
+    </div>
+
+    <!-- Tabel Data Tagihan -->
+    <div class="card">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Judul Tagihan</th>
+                        <th scope="col" class="px-6 py-3">Jumlah</th>
+                        <th scope="col" class="px-6 py-3">Jatuh Tempo</th>
+                        <th scope="col" class="px-6 py-3">Tipe</th>
+                        <th scope="col" class="px-6 py-3">Status Pembayaran</th>
+                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tagihan-table-body">
+                    <!-- Skeleton Loader -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Container Paginasi -->
+        <div id="pagination-container" class="hidden">
+             <p class="pagination-info"></p>
+             <div class="pagination-controls space-x-2"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit Tagihan -->
+<div id="tagihan-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-lg animate-fadeIn">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6">
+            <h3 id="modal-title" class="text-xl font-bold text-slate-800">Buat Tagihan Baru</h3>
+            <button id="close-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form id="tagihan-form" class="space-y-4">
+            <input type="hidden" id="tagihan-id">
+            <div>
+                <label for="tagihan-title" class="block text-sm font-medium text-slate-700 mb-1">Judul Tagihan</label>
+                <input type="text" id="tagihan-title" class="input-field" placeholder="Contoh: SPP Bulan Oktober 2025" required>
+            </div>
+            <div>
+                <label for="tagihan-amount" class="block text-sm font-medium text-slate-700 mb-1">Jumlah (Rp)</label>
+                <input type="number" id="tagihan-amount" class="input-field" placeholder="Contoh: 500000" required>
+            </div>
+            <div>
+                <label for="tagihan-due-date" class="block text-sm font-medium text-slate-700 mb-1">Tanggal Jatuh Tempo</label>
+                <input type="date" id="tagihan-due-date" class="input-field" required>
+            </div>
+            <div>
+                <label for="tagihan-mandatory" class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" id="tagihan-mandatory" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span class="text-sm font-medium text-slate-700">Tagihan Wajib</span>
+                </label>
+                <p class="text-xs text-slate-500 mt-1">Jika dicentang, akan mengunci saldo santri sampai tagihan ini lunas.</p>
+            </div>
+            <div>
+                <label for="tagihan-targets" class="block text-sm font-medium text-slate-700 mb-1">Target Santri</label>
+                <select id="tagihan-targets" class="input-field" multiple size="5">
+                    <!-- Opsi santri diisi oleh JS -->
+                </select>
+                <p class="text-xs text-slate-500 mt-1">Biarkan kosong untuk menagih semua santri. Tahan Ctrl/Cmd untuk memilih beberapa.</p>
+            </div>
+            <div class="pt-4 flex justify-end space-x-3">
+                <button type="button" id="cancel-btn" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]">
+                    <span class="btn-text">Simpan</span>
+                    <div class="spinner"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Detail Tagihan -->
+<div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-2xl animate-fadeIn">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6">
+            <h3 id="detail-modal-title" class="text-xl font-bold text-slate-800">Detail Status Pembayaran</h3>
+            <button id="close-detail-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div id="detail-modal-content" class="max-h-[60vh] overflow-y-auto">
+            <!-- Konten detail diisi oleh JS -->
+        </div>
+    </div>
+</div>

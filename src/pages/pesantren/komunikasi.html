@@ -1,0 +1,85 @@
+<!-- 
+    PERUBAHAN KUNCI:
+    1.  Menambahkan header halaman yang konsisten.
+    2.  Mengubah layout utama menjadi card yang membungkus navigasi tab dan konten.
+    3.  Menambahkan tombol edit di samping hapus untuk pengumuman.
+    4.  Mengimplementasikan container paginasi untuk setiap tab.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman -->
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800">Layanan & Komunikasi</h2>
+        <p class="text-slate-500 mt-1">Kelola pengumuman dan moderasi forum diskusi dengan wali santri.</p>
+    </div>
+
+    <!-- Kontainer Utama dengan Tab -->
+    <div class="card">
+        <!-- Navigasi Tab -->
+        <div class="border-b border-slate-200">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button id="tab-pengumuman" data-tab="pengumuman" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm">
+                    Pengumuman
+                </button>
+                <button id="tab-diskusi" data-tab="diskusi" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm">
+                    Forum Diskusi
+                </button>
+            </nav>
+        </div>
+
+        <!-- Konten Tab -->
+        <div class="mt-5">
+            <!-- Konten Pengumuman (Awalnya Aktif) -->
+            <div id="content-pengumuman" class="tab-content">
+                <div class="flex items-center justify-end mb-4">
+                    <button id="buat-pengumuman-btn" class="btn btn-primary">
+                        <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>Buat Pengumuman
+                    </button>
+                </div>
+                <div id="pengumuman-list" class="space-y-4"></div>
+                <div id="pagination-pengumuman" class="hidden">
+                    <p class="pagination-info"></p>
+                    <div class="pagination-controls"></div>
+                </div>
+            </div>
+
+            <!-- Konten Diskusi (Awalnya Tersembunyi) -->
+            <div id="content-diskusi" class="tab-content hidden">
+                <div id="diskusi-list" class="space-y-4"></div>
+                <div id="pagination-diskusi" class="hidden">
+                     <p class="pagination-info"></p>
+                     <div class="pagination-controls"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit Pengumuman -->
+<div id="pengumuman-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-lg animate-fadeIn">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6">
+            <h3 id="modal-title" class="text-xl font-bold text-slate-800">Buat Pengumuman Baru</h3>
+            <button id="close-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form id="pengumuman-form" class="space-y-4">
+            <input type="hidden" id="pengumuman-id">
+            <div>
+                <label for="pengumuman-title" class="block text-sm font-medium text-slate-700 mb-1">Judul Pengumuman</label>
+                <input type="text" id="pengumuman-title" class="input-field" required>
+            </div>
+            <div>
+                <label for="pengumuman-content" class="block text-sm font-medium text-slate-700 mb-1">Isi Pengumuman</label>
+                <textarea id="pengumuman-content" rows="5" class="input-field" required></textarea>
+            </div>
+            <div class="pt-4 flex justify-end space-x-3">
+                <button type="button" id="cancel-btn" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]">
+                    <span class="btn-text">Simpan</span>
+                    <div class="spinner"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

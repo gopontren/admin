@@ -1,0 +1,125 @@
+<!-- FILE DIPERBARUI TOTAL -->
+<div class="space-y-6">
+    <!-- Grid Kartu Statistik Keuangan -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="financial-stats-container">
+        <!-- Skeleton Loader -->
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+        <div class="stat-card skeleton h-[116px]"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Kolom Kiri: Penarikan & Manajemen Rekening -->
+        <div class="lg:col-span-1 space-y-6">
+            <!-- Card Penarikan Dana -->
+            <div class="card">
+                <h3 class="text-lg font-bold text-slate-800 mb-1">Penarikan Dana</h3>
+                <p class="text-sm text-slate-500 mb-4">Ajukan penarikan saldo ke rekening bank terdaftar.</p>
+                <form id="withdraw-form" class="space-y-4">
+                    <div>
+                        <label for="withdraw-amount" class="block text-sm font-medium text-slate-700 mb-1">Jumlah Penarikan (Rp)</label>
+                        <input type="number" id="withdraw-amount" class="input-field" placeholder="Contoh: 5000000" required>
+                    </div>
+                    <div class="pt-2">
+                        <button type="submit" class="btn btn-primary w-full h-[42px]">
+                            <span class="btn-text">Ajukan Penarikan</span>
+                            <div class="spinner"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Card Manajemen Rekening Bank -->
+            <div class="card">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">Rekening Bank Terdaftar</h3>
+                <div id="bank-accounts-container" class="space-y-3">
+                    <!-- Skeleton Loader -->
+                    <div class="h-16 w-full skeleton rounded-lg"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan: Riwayat Transaksi -->
+        <div class="lg:col-span-2">
+            <div class="card">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">Riwayat Transaksi Terbaru</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Tanggal</th>
+                                <th scope="col" class="px-6 py-3">Deskripsi</th>
+                                <th scope="col" class="px-6 py-3">Tipe</th>
+                                <th scope="col" class="px-6 py-3 text-right">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table-body">
+                            <!-- Skeleton Loader atau Data -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Paginasi -->
+                <div id="pagination-container" class="hidden">
+                    <p class="pagination-info"></p>
+                    <div class="pagination-controls space-x-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ubah Rekening Bank -->
+<div id="edit-bank-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-lg animate-fadeIn">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6">
+            <h3 class="text-xl font-bold text-slate-800">Ubah Rekening Bank</h3>
+            <button data-action="close-modal" class="p-1 rounded-full text-slate-500 hover:bg-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form id="edit-bank-form" class="space-y-4">
+            <input type="hidden" id="edit-bank-id">
+            <div>
+                <label for="edit-bank-name" class="block text-sm font-medium text-slate-700 mb-1">Nama Bank</label>
+                <input type="text" id="edit-bank-name" class="input-field" placeholder="Contoh: BSI" required>
+            </div>
+            <div>
+                <label for="edit-account-holder" class="block text-sm font-medium text-slate-700 mb-1">Nama Pemilik Rekening</label>
+                <input type="text" id="edit-account-holder" class="input-field" placeholder="Contoh: Yayasan Nurul Fikri" required>
+            </div>
+            <div>
+                <label for="edit-account-number" class="block text-sm font-medium text-slate-700 mb-1">Nomor Rekening</label>
+                <input type="text" id="edit-account-number" class="input-field" placeholder="Contoh: 7123456789" required>
+            </div>
+            <div class="pt-4 flex justify-end space-x-3">
+                <button type="button" data-action="close-modal" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]">
+                    <span class="btn-text">Kirim Kode OTP</span>
+                    <div class="spinner"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Verifikasi OTP -->
+<div id="otp-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-sm animate-fadeIn">
+        <div class="text-center">
+            <h3 class="text-xl font-bold text-slate-800">Verifikasi Perubahan</h3>
+            <p class="text-slate-500 mt-2">Kami telah mengirimkan kode OTP ke email Anda. Silakan masukkan kode di bawah ini.</p>
+        </div>
+        <form id="otp-form" class="mt-6">
+            <div>
+                <label for="otp-input" class="sr-only">Kode OTP</label>
+                <input type="text" id="otp-input" class="input-field text-center text-2xl tracking-[1em]" maxlength="6" placeholder="------" required>
+            </div>
+            <div class="pt-6 flex flex-col space-y-3">
+                <button type="submit" class="btn btn-primary w-full h-[42px]">
+                    <span class="btn-text">Verifikasi & Simpan</span>
+                    <div class="spinner"></div>
+                </button>
+                <button type="button" data-action="close-modal" class="btn btn-secondary w-full">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>
+

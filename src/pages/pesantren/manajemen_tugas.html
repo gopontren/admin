@@ -1,0 +1,162 @@
+<!-- 
+  PERUBAHAN KUNCI:
+  1. Menambahkan placeholder untuk banner demo animasi fitur baru.
+  2. Di dalam modal, mengganti <textarea> JSON dengan <select> dropdown
+     untuk memilih "Grup Pilihan" yang sudah dibuat di Data Master.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman & Aksi -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-800">Manajemen Tugas Ustadz</h2>
+            <p class="text-slate-500 mt-1">Buat dan kelola tugas yang dapat diakses oleh ustadz melalui aplikasi mereka.</p>
+        </div>
+        <button id="tambah-tugas-btn" class="btn btn-primary w-full md:w-auto">
+            <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
+            <span>Buat Tugas Baru</span>
+        </button>
+    </div>
+
+    <!-- [BARU] Banner Demo Fitur (awalnya disembunyikan) -->
+    <div id="demo-banner" class="hidden p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+        <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                 <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <div>
+                 <h4 class="font-bold text-indigo-800">Cara Baru Membuat Tugas dengan Pilihan!</h4>
+                 <p class="text-sm text-indigo-700 mt-1">
+                    Kini Anda tidak perlu lagi menulis kode JSON. Cukup buat "Grup Pilihan" di halaman <b>Data Master</b>, lalu pilih grup tersebut di sini.
+                 </p>
+                 <button id="hide-demo-banner-btn" class="text-xs font-semibold text-indigo-600 hover:underline mt-2">Saya Mengerti, Jangan Tampilkan Lagi</button>
+            </div>
+            <!-- Ganti dengan GIF animasi demo -->
+            <div class="w-40 h-24 bg-indigo-200 rounded-md flex-shrink-0 ml-auto hidden md:block">
+                <!-- <img src="/src/assets/animasi-demo.gif" alt="Demo Animasi"> -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Tabel Data Tugas -->
+    <div class="card">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Nama Tugas (Label)</th>
+                        <th scope="col" class="px-6 py-3">Tipe Eksekusi (Handler)</th>
+                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tugas-table-body">
+                    <!-- Skeleton Loader akan di-render oleh JS -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Container Paginasi -->
+        <div id="pagination-container" class="hidden">
+             <p class="pagination-info"></p>
+             <div class="pagination-controls space-x-2"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit Tugas -->
+<div id="tugas-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-2xl animate-fadeIn max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6 flex-shrink-0">
+            <h3 id="modal-title" class="text-xl font-bold text-slate-800">Buat Tugas Baru</h3>
+            <button id="close-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form id="tugas-form" class="space-y-4 overflow-y-auto flex-1 pr-2">
+            <input type="hidden" id="tugas-key">
+            
+            <!-- Informasi Dasar Tugas -->
+            <div>
+                <label for="tugas-label" class="form-label">Nama Tugas (Label)</label>
+                <input type="text" id="tugas-label" class="input-field" placeholder="Contoh: Absensi Sholat" required>
+                <p class="text-xs text-slate-500 mt-1">Nama ini yang akan muncul di tombol pada aplikasi ustadz.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="tugas-icon" class="form-label">Ikon Tugas</label>
+                    <input type="text" id="tugas-icon" class="input-field" placeholder="Contoh: moon-star" required>
+                     <p class="text-xs text-slate-500 mt-1">Gunakan nama dari <a href="https://lucide.dev/" target="_blank" class="text-indigo-600 hover:underline">Lucide Icons</a>.</p>
+                </div>
+                <div>
+                    <label for="tugas-color" class="form-label">Warna Tema</label>
+                    <input type="text" id="tugas-color" class="input-field" placeholder="Contoh: teal" required>
+                     <p class="text-xs text-slate-500 mt-1">Gunakan nama warna dari Tailwind CSS.</p>
+                </div>
+            </div>
+
+            <!-- Pengaturan Handler (Eksekusi Tugas) -->
+            <div class="border-t pt-4">
+                 <label for="handler-type" class="form-label">Tipe Eksekusi (Handler)</label>
+                 <select id="handler-type" class="input-field" required>
+                    <option value="">Pilih Tipe Eksekusi...</option>
+                    <option value="GENERIC_SCAN">Pindai Kartu (Aksi Langsung)</option>
+                    <option value="SELECT_SUB_ACTION">Pilih Opsi Dulu, Baru Pindai</option>
+                 </select>
+            </div>
+
+            <!-- Kontainer untuk Konfigurasi Handler yang Dinamis -->
+            <div id="handler-config-container" class="space-y-4">
+                <!-- Template untuk GENERIC_SCAN (awalnya hidden) -->
+                <div id="config-generic-scan" class="handler-config-section hidden space-y-4 p-4 bg-slate-50 rounded-lg">
+                    <p class="text-sm font-semibold text-slate-600 border-b pb-2">Konfigurasi Pindai Kartu</p>
+                    <div>
+                        <label for="config-gs-pageTitle" class="form-label">Judul Halaman Pindai</label>
+                        <input type="text" id="config-gs-pageTitle" class="input-field" placeholder="Contoh: Absensi Sholat Subuh">
+                    </div>
+                     <div>
+                        <label for="config-gs-apiEndpoint" class="form-label">Kategori Data</label>
+                        <select id="config-gs-apiEndpoint" class="input-field">
+                            <option value="/absensi/umum">Absensi Umum</option>
+                            <option value="/kegiatan/pencatatan">Pencatatan Kegiatan</option>
+                            <option value="/kesehatan/pemeriksaan">Pemeriksaan Kesehatan</option>
+                            <option value="/lainnya/pencatatan">Lain-lain</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- [DIUBAH] Template untuk SELECT_SUB_ACTION -->
+                <div id="config-select-sub-action" class="handler-config-section hidden space-y-4 p-4 bg-slate-50 rounded-lg">
+                    <p class="text-sm font-semibold text-slate-600 border-b pb-2">Konfigurasi Pilih Opsi</p>
+                    <div>
+                        <label for="config-ssa-title" class="form-label">Judul Modal Pemilihan</label>
+                        <input type="text" id="config-ssa-title" class="input-field" placeholder="Contoh: Pilih Waktu Sholat">
+                    </div>
+                    <div>
+                        <label for="config-ssa-grupPilihan" class="form-label">Gunakan Grup Pilihan</label>
+                        <select id="config-ssa-grupPilihan" class="input-field" required>
+                           <!-- Opsi akan diisi oleh JS -->
+                        </select>
+                        <p class="text-xs text-slate-500 mt-1">Grup Pilihan dibuat di halaman <a href="#pesantren/data_master_akademik" class="text-indigo-600 hover:underline">Data Master</a>.</p>
+                    </div>
+                     <div>
+                        <label for="config-ssa-nextApiEndpoint" class="form-label">Kategori Data (Setelah Memilih & Pindai)</label>
+                         <select id="config-ssa-nextApiEndpoint" class="input-field">
+                            <option value="/absensi/umum">Absensi Umum</option>
+                            <option value="/kegiatan/pencatatan">Pencatatan Kegiatan</option>
+                            <option value="/kesehatan/pemeriksaan">Pemeriksaan Kesehatan</option>
+                            <option value="/lainnya/pencatatan">Lain-lain</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 flex justify-end space-x-3 flex-shrink-0">
+                <button type="button" id="cancel-btn" class="btn btn-secondary">Batal</button>
+                <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]">
+                    <span class="btn-text">Simpan Tugas</span>
+                    <div class="spinner"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+

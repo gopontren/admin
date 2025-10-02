@@ -1,0 +1,68 @@
+<!-- 
+  FILE DIPERBARUI
+  Tujuan: Menambahkan filter kelas, wadah untuk grafik (chart), 
+  dan kontainer untuk kontrol paginasi.
+-->
+<div class="space-y-6">
+    <!-- Card untuk Filter Laporan -->
+    <div class="card">
+        <h3 class="text-lg font-bold text-slate-800 mb-1">Filter Laporan</h3>
+        <p class="text-sm text-slate-500 mb-4">Pilih kriteria di bawah ini untuk menghasilkan laporan yang spesifik.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <!-- Filter 1: Rentang Tanggal -->
+            <div>
+                <label for="filter-tanggal-mulai" class="block text-sm font-medium text-slate-700 mb-1">Tanggal Mulai</label>
+                <input type="date" id="filter-tanggal-mulai" class="input-field">
+            </div>
+            <div>
+                <label for="filter-tanggal-akhir" class="block text-sm font-medium text-slate-700 mb-1">Tanggal Akhir</label>
+                <input type="date" id="filter-tanggal-akhir" class="input-field">
+            </div>
+
+            <!-- Filter 2: Jenis Laporan -->
+            <div>
+                <label for="filter-jenis-laporan" class="block text-sm font-medium text-slate-700 mb-1">Jenis Laporan</label>
+                <select id="filter-jenis-laporan" class="input-field">
+                    <option value="keaktifan_santri">Keaktifan Santri</option>
+                    <option value="kinerja_ustadz">Kinerja Ustadz</option>
+                </select>
+            </div>
+            
+            <!-- [BARU] Filter 3: Berdasarkan Kelas (dinamis) -->
+            <div id="filter-kelas-container">
+                <label for="filter-kelas" class="block text-sm font-medium text-slate-700 mb-1">Berdasarkan Kelas</label>
+                <select id="filter-kelas" class="input-field">
+                    <option value="all">Semua Kelas</option>
+                    <!-- Opsi kelas akan diisi oleh JS -->
+                </select>
+            </div>
+
+            <!-- Filter 4: Target Spesifik (dinamis) -->
+            <div id="filter-target-container">
+                <label for="filter-target" id="filter-target-label" class="block text-sm font-medium text-slate-700 mb-1">Pilih Santri</label>
+                <select id="filter-target" class="input-field">
+                    <option value="all">Semua Santri</option>
+                    <!-- Opsi lain akan diisi oleh JS -->
+                </select>
+            </div>
+        </div>
+        
+        <div class="mt-4 pt-4 border-t border-slate-200 flex justify-end">
+            <button id="terapkan-filter-btn" class="btn btn-primary h-[42px]">
+                <span class="btn-text">Tampilkan Laporan</span>
+                <div class="spinner"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Container untuk Hasil Laporan -->
+    <div id="hasil-laporan-container">
+        <!-- Tampilan Awal / Default -->
+        <div class="card text-center py-12">
+            <i data-lucide="bar-chart-3" class="w-12 h-12 text-slate-300 mx-auto"></i>
+            <h4 class="mt-4 text-lg font-semibold text-slate-700">Laporan Belum Dibuat</h4>
+            <p class="text-slate-500 mt-1">Silakan pilih filter di atas dan klik "Tampilkan Laporan" untuk melihat data.</p>
+        </div>
+    </div>
+</div>

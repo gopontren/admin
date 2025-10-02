@@ -1,0 +1,27 @@
+<!-- 
+    PERUBAHAN KUNCI:
+    1.  Header halaman (h1, p) telah dihapus karena sekarang dikelola secara dinamis oleh header.js.
+    2.  Struktur kartu statistik dirombak total dengan desain baru (ikon besar, teks terstruktur).
+    3.  Menambahkan container (#statistik-container, #aktivitas-container) untuk mempermudah JS dalam mengisi data.
+    4.  Implementasi Skeleton Loader sebagai tampilan default sebelum data dimuat oleh JavaScript.
+-->
+
+<!-- Grid Kartu Statistik -->
+<div id="statistik-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Skeleton Loader untuk Kartu Statistik -->
+    <div class="card"><div class="flex items-center space-x-4"><div class="w-12 h-12 rounded-lg skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-3/4 skeleton"></div><div class="h-6 w-1/2 skeleton"></div></div></div></div>
+    <div class="card"><div class="flex items-center space-x-4"><div class="w-12 h-12 rounded-lg skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-3/4 skeleton"></div><div class="h-6 w-1/2 skeleton"></div></div></div></div>
+    <div class="card"><div class="flex items-center space-x-4"><div class="w-12 h-12 rounded-lg skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-3/4 skeleton"></div><div class="h-6 w-1/2 skeleton"></div></div></div></div>
+    <div class="card"><div class="flex items-center space-x-4"><div class="w-12 h-12 rounded-lg skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-3/4 skeleton"></div><div class="h-6 w-1/2 skeleton"></div></div></div></div>
+</div>
+
+<!-- Daftar Aktivitas Terbaru -->
+<div class="card mt-8">
+    <h3 class="text-xl font-bold text-slate-800 mb-4">Aktivitas Terbaru</h3>
+    <div id="aktivitas-container" class="space-y-4">
+        <!-- Skeleton Loader untuk Aktivitas -->
+        <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-full skeleton"></div><div class="h-3 w-1/3 skeleton"></div></div></div>
+        <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-full skeleton"></div><div class="h-3 w-1/3 skeleton"></div></div></div>
+        <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full skeleton"></div><div class="flex-1 space-y-2"><div class="h-4 w-full skeleton"></div><div class="h-3 w-1/3 skeleton"></div></div></div>
+    </div>
+</div>

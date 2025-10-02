@@ -1,0 +1,139 @@
+<!-- 
+  FILE BARU
+  Tujuan: Menyediakan antarmuka (UI) untuk admin dalam mengelola
+  semua perizinan santri, mulai dari membuat izin baru, melihat santri
+  yang sedang izin, hingga riwayat perizinan yang sudah selesai.
+-->
+<div class="space-y-6">
+    <!-- Header Halaman & Aksi -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-800">Manajemen Perizinan Santri</h2>
+            <p class="text-slate-500 mt-1">Catat dan pantau status perizinan santri secara terpusat.</p>
+        </div>
+        <button id="buat-izin-btn" class="btn btn-primary w-full md:w-auto">
+            <i data-lucide="plus-circle" class="w-5 h-5 mr-2"></i>
+            <span>Buat Izin Baru</span>
+        </button>
+    </div>
+
+    <!-- Kontainer Utama dengan Tab -->
+    <div class="card">
+        <!-- Navigasi Tab -->
+        <div class="border-b border-slate-200">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button data-tab="aktif" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm">
+                    Santri Sedang Izin
+                </button>
+                <button data-tab="riwayat" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm">
+                    Riwayat Izin
+                </button>
+            </nav>
+        </div>
+
+        <!-- Konten Tab -->
+        <div class="mt-5">
+            <!-- Konten Izin Aktif -->
+            <div id="content-aktif" class="tab-content">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Nama Santri</th>
+                                <th scope="col" class="px-6 py-3">Jenis Izin</th>
+                                <th scope="col" class="px-6 py-3">Berlaku Hingga</th>
+                                <th scope="col" class="px-6 py-3 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="izin-aktif-table-body">
+                            <!-- Skeleton Loader atau Data -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pagination-aktif" class="hidden">
+                    <p class="pagination-info"></p>
+                    <div class="pagination-controls"></div>
+                </div>
+            </div>
+
+            <!-- Konten Riwayat Izin -->
+            <div id="content-riwayat" class="tab-content hidden">
+                 <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Nama Santri</th>
+                                <th scope="col" class="px-6 py-3">Jenis Izin</th>
+                                <th scope="col" class="px-6 py-3">Periode Izin</th>
+                                <th scope="col" class="px-6 py-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="izin-riwayat-table-body">
+                            <!-- Skeleton Loader atau Data -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pagination-riwayat" class="hidden">
+                     <p class="pagination-info"></p>
+                     <div class="pagination-controls"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit Izin -->
+<div id="perizinan-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-lg animate-fadeIn">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-6">
+            <h3 id="modal-title" class="text-xl font-bold text-slate-800">Buat Izin Baru</h3>
+            <button id="close-modal-btn" class="p-1 rounded-full text-slate-500 hover:bg-slate-200">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form id="perizinan-form" class="space-y-4">
+            <input type="hidden" id="izin-id">
+            <div>
+                <label for="izin-santri" class="block text-sm font-medium text-slate-700 mb-1">Pilih Santri</label>
+                <select id="izin-santri" class="input-field" required>
+                    <!-- Opsi santri akan diisi oleh JavaScript -->
+                </select>
+            </div>
+            <div>
+                <label for="izin-jenis" class="block text-sm font-medium text-slate-700 mb-1">Jenis Izin</label>
+                <select id="izin-jenis" class="input-field" required>
+                    <option value="Sakit">Sakit (di dalam pondok)</option>
+                    <option value="Pulang">Pulang</option>
+                    <option value="Keperluan Keluarga">Keperluan Keluarga</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="izin-mulai" class="block text-sm font-medium text-slate-700 mb-1">Izin Mulai</label>
+                    <input type="datetime-local" id="izin-mulai" class="input-field" required>
+                </div>
+                <div>
+                    <label for="izin-selesai" class="block text-sm font-medium text-slate-700 mb-1">Estimasi Selesai</label>
+                    <input type="datetime-local" id="izin-selesai" class="input-field" required>
+                </div>
+            </div>
+             <div>
+                <label for="izin-keterangan" class="block text-sm font-medium text-slate-700 mb-1">Keterangan</label>
+                <textarea id="izin-keterangan" rows="3" class="input-field" placeholder="Contoh: Istirahat karena demam, atau menjenguk orang tua sakit."></textarea>
+            </div>
+            <div class="pt-4 flex justify-between items-center">
+                 <button type="button" id="selesaikan-izin-btn" class="btn btn-secondary hidden">
+                    <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i> Selesaikan Izin
+                </button>
+                <div class="flex justify-end space-x-3 w-full">
+                    <button type="button" id="cancel-btn" class="btn btn-secondary">Batal</button>
+                    <button type="submit" class="btn btn-primary h-[42px] min-w-[120px]">
+                        <span class="btn-text">Simpan Izin</span>
+                        <div class="spinner"></div>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
