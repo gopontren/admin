@@ -1,0 +1,115 @@
+<!-- 
+  FILE BARU
+  Tujuan: Menyediakan halaman pendaftaran mandiri untuk calon klien (pesantren)
+  sesuai dengan dokumentasi alur registrasi hybrid.
+-->
+<div class="w-full min-h-full flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div class="w-full max-w-3xl">
+        <!-- Header Halaman -->
+        <div class="text-center mb-8">
+            <i data-lucide="school" class="w-16 h-16 text-indigo-600 mx-auto"></i>
+            <h1 class="text-3xl font-bold text-slate-800 mt-4">Pendaftaran Pesantren Baru</h1>
+            <p class="text-slate-500 mt-1">Daftarkan institusi Anda untuk bergabung dengan ekosistem Go-Pontren.</p>
+        </div>
+
+        <!-- Form Pendaftaran -->
+        <div class="card">
+            <form id="registration-form" class="space-y-6">
+                <!-- Bagian 1: Informasi Institusi -->
+                <fieldset class="space-y-4">
+                    <legend class="text-lg font-semibold text-slate-800 border-b pb-2 mb-4 w-full">A. Informasi Institusi Pesantren</legend>
+                    <div>
+                        <label for="pesantren-name" class="block text-sm font-medium text-slate-700 mb-1">Nama Pesantren</label>
+                        <input type="text" id="pesantren-name" class="input-field" required minlength="3">
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-slate-700 mb-1">Alamat Lengkap</label>
+                        <textarea id="address" class="input-field" rows="3" required></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="contact" class="block text-sm font-medium text-slate-700 mb-1">Nomor Kontak Resmi</label>
+                            <input type="tel" id="contact" class="input-field" required>
+                        </div>
+                        <div>
+                            <label for="santri-count" class="block text-sm font-medium text-slate-700 mb-1">Estimasi Jumlah Santri</label>
+                            <input type="number" id="santri-count" class="input-field" required>
+                        </div>
+                        <div>
+                            <label for="ustadz-count" class="block text-sm font-medium text-slate-700 mb-1">Estimasi Jumlah Ustadz</label>
+                            <input type="number" id="ustadz-count" class="input-field" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Bagian 2: Informasi Akun Admin -->
+                <fieldset class="space-y-4 pt-6 border-t">
+                    <legend class="text-lg font-semibold text-slate-800 border-b pb-2 mb-4 w-full">B. Informasi Akun Admin Pesantren</legend>
+                    <div>
+                        <label for="admin-name" class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap Admin</label>
+                        <input type="text" id="admin-name" class="input-field" required>
+                    </div>
+                    <div>
+                        <label for="admin-email" class="block text-sm font-medium text-slate-700 mb-1">Email Admin (untuk login)</label>
+                        <input type="email" id="admin-email" class="input-field" required>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Kata Sandi</label>
+                            <input type="password" id="password" class="input-field" required minlength="8">
+                        </div>
+                        <div>
+                            <label for="confirm-password" class="block text-sm font-medium text-slate-700 mb-1">Konfirmasi Kata Sandi</label>
+                            <input type="password" id="confirm-password" class="input-field" required>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- Bagian 3: Dokumen & Branding -->
+                <fieldset class="space-y-4 pt-6 border-t">
+                    <legend class="text-lg font-semibold text-slate-800 border-b pb-2 mb-4 w-full">C. Dokumen & Branding</legend>
+                     <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Logo Pesantren (Opsional)</label>
+                        <div class="flex items-center gap-4">
+                            <img id="logo-preview" src="https://placehold.co/100x100/e2e8f0/64748b?text=Logo" alt="Pratinjau Logo" class="w-24 h-24 rounded-md object-cover bg-slate-200 border">
+                            <div class="flex-1">
+                                <input type="file" id="logo-file" accept="image/png, image/jpeg" class="input-file">
+                                <p class="text-xs text-slate-500 mt-1">Format: PNG, JPG. Maks 2MB.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div>
+                        <label for="document-file" class="block text-sm font-medium text-slate-700 mb-1">Dokumen Pendukung (Akta Yayasan/NIB/Izin Operasional)</label>
+                        <input type="file" id="document-file" class="input-file" accept=".pdf,image/png,image/jpeg" required>
+                        <p class="text-xs text-slate-500 mt-1">Format: PDF, PNG, JPG. Maks 5MB.</p>
+                    </div>
+                </fieldset>
+
+                <!-- Bagian 4: Persetujuan & Submit -->
+                 <div class="pt-6 border-t">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="agreement" name="agreement" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" required>
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="agreement" class="font-medium text-slate-700">Saya menyatakan bahwa data yang saya isikan adalah benar dan dapat dipertanggungjawabkan.</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pesan Error/Sukses -->
+                <div id="form-message" class="hidden text-sm p-4 rounded-md"></div>
+
+                <div class="pt-2">
+                    <button type="submit" class="btn btn-primary w-full h-[46px] text-base">
+                        <span class="btn-text">Daftarkan Pesantren Saya</span>
+                        <div class="spinner"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <p class="text-sm text-slate-500 text-center mt-6">
+            Sudah punya akun? <a href="#login" class="font-semibold text-indigo-600 hover:underline">Masuk di sini</a>.
+        </p>
+    </div>
+</div>
